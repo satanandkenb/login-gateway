@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR System Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Animated background circles */
+    body::before,
+    body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    body::before {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -150px;
+        animation-delay: 0s;
+    }
+
+    body::after {
+        width: 400px;
+        height: 400px;
+        bottom: -200px;
+        right: -200px;
+        animation-delay: 2s;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-20px) scale(1.05);
+        }
+    }
+
+    #login-container {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 420px;
+        padding: 20px;
+    }
+
+    #login-page {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 50px 40px;
+        animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .logo-circle i {
+        font-size: 40px;
+        color: white;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        color: #666;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 500;
+        font-size: 14px;
+        padding-left: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    input::placeholder {
+        color: #aaa;
+    }
+
+    #button {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 10px;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    #button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    #button:active {
+        transform: translateY(0);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .error {
+        background: #fee;
+        color: #c33;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        font-size: 14px;
+        border-left: 4px solid #c33;
+        display: none;
+    }
+
+    .footer-links {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .footer-links a {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.3s;
+        margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+
+    /* Content iframe styling */
+    #content {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: white;
+    }
+
+    #content iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+        #login-page {
+            padding: 40px 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .logo-circle {
+            width: 70px;
+            height: 70px;
+        }
+
+        .logo-circle i {
+            font-size: 35px;
+        }
+    }
+</style>
+<body>
+    <div id="login-container">
+        <div id="login-page">
+            <div class="login-header">
+                <div class="logo-circle">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h1>Login</h1>
+                <p class="subtitle">Get access of Satanand's projects library</p>
+            </div>
+            
+            <form onsubmit="return false;">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                </div>
+                
+                <button type="button" id="button" onclick="loadMainPage()">Sign In</button>
+            </form>
+            
+            <div id="error-message" class="error"></div>
+            
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-question-circle"></i> Forgot Password?</a>
+                <a href="#"><i class="fas fa-headset"></i> Get Help</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content will be loaded here in iframe -->
+    <div id="content">
+        <iframe id="main-iframe" src="" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"></iframe>
+    </div>
+    
+    <script>
+        // Session storage to track login state
+        var isLoggedIn = false;
+
+        function loadMainPage() {
+            // Get the values from input fields
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var errorDiv = document.getElementById("error-message");
+            
+            // Check if credentials are correct
+            if(username === "KenB" && password === "KenB@8744") {
+                // Set login state
+                isLoggedIn = true;
+                
+                // Hide login page
+                document.getElementById("login-container").style.display = 'none';
+                
+                // Show content iframe
+                document.getElementById("content").style.display = 'block';
+                
+                // Load the main page in iframe
+                document.getElementById("main-iframe").src = 'https://satanandkenb.github.io/main/';
+                
+                // Change page title to hide that it's a login page
+                document.title = 'HR Management System';
+            } else {
+                // Show error message
+                errorDiv.textContent = "Invalid username or password. Please try again.";
+                errorDiv.style.display = "block";
+            }
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                loadMainPage();
+            }
+        });
+
+        // Prevent back button from showing main page without login
+        window.addEventListener('pageshow', function(event) {
+            if (!isLoggedIn && document.getElementById("content").style.display === 'block') {
+                // If user tries to go back, show login again
+                document.getElementById("content").style.display = 'none';
+                document.getElementById("login-container").style.display = 'flex';
+            }
+        });
+
+        // Optional: Prevent right-click on iframe to make it harder to access URL
+        document.getElementById("main-iframe").addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    </script>
+</body>
+</html>
